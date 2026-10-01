@@ -9,15 +9,21 @@ interface CanvasWorkspaceProps extends PropsWithChildren {
   emptyState: ReactNode;
 }
 
-export function CanvasWorkspace({ canvasRef, emptyState, children }: CanvasWorkspaceProps) {
-  return <main className="canvas-workspace">
-    <CanvasToolbar />
-    <CanvasSurface canvasRef={canvasRef}>
-      {emptyState}
-      <CanvasControls />
-      <CanvasInstructions />
-      {children}
-    </CanvasSurface>
-    <CanvasFooter />
-  </main>;
+export function CanvasWorkspace({
+  canvasRef,
+  emptyState,
+  children,
+}: CanvasWorkspaceProps) {
+  return (
+    <main className="relative flex min-h-0 min-w-0 flex-col bg-app">
+      <CanvasToolbar />
+      <CanvasSurface canvasRef={canvasRef}>
+        {emptyState}
+        <CanvasControls />
+        <CanvasInstructions />
+        {children}
+      </CanvasSurface>
+      <CanvasFooter />
+    </main>
+  );
 }

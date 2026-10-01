@@ -1,0 +1,62 @@
+@layer base {
+  :root {
+    font-family: var(--font-sans);
+    color: var(--color-foreground);
+    background: var(--color-app);
+    font-synthesis: none;
+    font-weight: 400;
+    color-scheme: dark;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+  }
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    font: inherit;
+    cursor: pointer;
+    color: inherit;
+    border: 0;
+    transition:
+      background 0.15s,
+      border-color 0.15s,
+      color 0.15s,
+      transform 0.15s,
+      translate 0.15s;
+  }
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  svg {
+    flex-shrink: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}

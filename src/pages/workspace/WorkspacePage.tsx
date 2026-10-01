@@ -12,16 +12,21 @@ import { WorkspaceSidebar } from '../../features/workspace/components/WorkspaceS
 export function WorkspacePage() {
   const creation = useCanvasCreation();
   const [helpOpen, setHelpOpen] = useState(false);
-  const toggleHelp = () => setHelpOpen(open => !open);
+  const toggleHelp = () => setHelpOpen((open) => !open);
   const closeHelp = () => setHelpOpen(false);
 
-  return <WorkspaceLayout>
-    <WorkspaceHeader helpOpen={helpOpen} onToggleHelp={toggleHelp} />
-    <WorkspaceSidebar creation={creation} />
-    <CanvasWorkspace canvasRef={creation.canvasRef} emptyState={<EmptyCanvas onAddPrompt={creation.addPrompt} />}>
-      <HelpPanel open={helpOpen} onClose={closeHelp} />
-      <NoticeToast />
-    </CanvasWorkspace>
-    <StorageErrorBanner />
-  </WorkspaceLayout>;
+  return (
+    <WorkspaceLayout>
+      <WorkspaceHeader helpOpen={helpOpen} onToggleHelp={toggleHelp} />
+      <WorkspaceSidebar creation={creation} />
+      <CanvasWorkspace
+        canvasRef={creation.canvasRef}
+        emptyState={<EmptyCanvas onAddPrompt={creation.addPrompt} />}
+      >
+        <HelpPanel open={helpOpen} onClose={closeHelp} />
+        <NoticeToast />
+      </CanvasWorkspace>
+      <StorageErrorBanner />
+    </WorkspaceLayout>
+  );
 }

@@ -15,7 +15,7 @@ async function saved(page: Page, predicate: (doc: SavedDocument) => boolean) {
     const value = await document(page);
     return Boolean(value && predicate(value));
   }).toBe(true);
-  await expect(page.locator('.save-indicator')).toHaveText('已保存');
+  await expect(page.getByTestId('save-status')).toHaveText('已保存');
   return document(page);
 }
 
