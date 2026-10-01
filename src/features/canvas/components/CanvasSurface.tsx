@@ -6,7 +6,7 @@ import {
   type Edge,
 } from '@xyflow/react';
 import type { CanvasNode } from '../types';
-import { nodeTypes } from '../../../components/CanvasNodes';
+import { nodeTypes } from './nodeTypes';
 import { useCanvasBindings } from '../hooks/useCanvasBindings';
 
 interface CanvasSurfaceProps extends PropsWithChildren {
