@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720">
+  <defs>
+    <radialGradient id="background" cx=".5" cy=".4" r=".8"><stop stop-color="#6c548c"/><stop offset=".7" stop-color="#352f57"/><stop offset="1" stop-color="#272947"/></radialGradient>
+    <linearGradient id="petal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e4b1cb"/><stop offset=".47" stop-color="#bd85c1"/><stop offset="1" stop-color="#785f9e"/></linearGradient>
+    <linearGradient id="inner" x2=".7" y2="1"><stop stop-color="#ffdeca"/><stop offset="1" stop-color="#d794b5"/></linearGradient>
+    <radialGradient id="center"><stop stop-color="#ffdeb2"/><stop offset="1" stop-color="#bf858e"/></radialGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".055"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+    <path id="leaf" d="M480 374c-76-32-101-106-51-218 8-19 24-33 42-40 17 2 34 19 43 41 42 104 25 171-34 217z"/>
+    <path id="small" d="M480 365c-38-19-59-59-39-128 7-23 21-39 38-42 17 4 32 21 37 42 18 66 2 107-36 128z"/>
+  </defs>
+  <g filter="url(#grain)">
+    <path fill="url(#background)" d="M0 0h960v720H0z"/>
+    <g fill="none" stroke="#a38cab" opacity=".14"><circle cx="480" cy="370" r="279"/><circle cx="480" cy="370" r="291"/><circle cx="480" cy="370" r="309"/></g>
+    <path fill="none" stroke="#829399" stroke-width="9" stroke-linecap="round" d="M480 435c-27 105-31 189-12 285"/>
+    <path fill="#759397" d="M464 621c-72-10-110-48-148-108 81 7 140 35 148 108z"/>
+    <path fill="#596f8a" d="M465 665c9-73 52-111 117-140-3 68-45 119-117 140z"/>
+    <g fill="url(#petal)">
+      <use href="#leaf"/><use href="#leaf" transform="rotate(45 480 370)"/><use href="#leaf" transform="rotate(90 480 370)"/><use href="#leaf" transform="rotate(135 480 370)"/><use href="#leaf" transform="rotate(180 480 370)"/><use href="#leaf" transform="rotate(225 480 370)"/><use href="#leaf" transform="rotate(270 480 370)"/><use href="#leaf" transform="rotate(315 480 370)"/>
+    </g>
+    <g fill="url(#inner)" opacity=".91">
+      <use href="#small" transform="rotate(22.5 480 370)"/><use href="#small" transform="rotate(67.5 480 370)"/><use href="#small" transform="rotate(112.5 480 370)"/><use href="#small" transform="rotate(157.5 480 370)"/><use href="#small" transform="rotate(202.5 480 370)"/><use href="#small" transform="rotate(247.5 480 370)"/><use href="#small" transform="rotate(292.5 480 370)"/><use href="#small" transform="rotate(337.5 480 370)"/>
+    </g>
+    <circle fill="url(#center)" cx="480" cy="370" r="45"/>
+    <g fill="#ffe9bd" opacity=".76"><circle cx="468" cy="346" r="4"/><circle cx="491" cy="351" r="3"/><circle cx="452" cy="367" r="3"/><circle cx="477" cy="366" r="4"/><circle cx="502" cy="371" r="4"/><circle cx="465" cy="388" r="3"/><circle cx="488" cy="393" r="3"/></g>
+    <g fill="#d5b9cd" opacity=".46"><circle cx="198" cy="226" r="3"/><circle cx="741" cy="469" r="3"/><circle cx="731" cy="187" r="2"/><circle cx="212" cy="526" r="2"/><circle cx="173" cy="385" r="2"/><circle cx="796" cy="331" r="2"/></g>
+  </g>
+</svg>

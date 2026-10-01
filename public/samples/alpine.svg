@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#91bebc"/><stop offset="1" stop-color="#d7e5ce"/></linearGradient>
+    <linearGradient id="mountain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#456d76"/><stop offset="1" stop-color="#244e60"/></linearGradient>
+    <linearGradient id="lake" x2="0" y2="1"><stop stop-color="#6bb6b4"/><stop offset="1" stop-color="#1f696d"/></linearGradient>
+    <linearGradient id="near" x2=".8" y2="1"><stop stop-color="#2a6563"/><stop offset="1" stop-color="#133f4b"/></linearGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".64" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".055"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+  </defs>
+  <g filter="url(#grain)">
+    <path fill="url(#sky)" d="M0 0h960v720H0z"/>
+    <circle fill="#edf0d9" opacity=".88" cx="759" cy="164" r="57"/>
+    <path fill="#85adae" d="M0 354 129 207 226 331 379 190 476 330 615 224 723 347 846 252 960 355v183H0z"/>
+    <path fill="url(#mountain)" d="m0 428 231-233 197 289 191-239 174 174 84-110 83 131v116H0z"/>
+    <path fill="#d8e4d6" d="m116 311 115-116 111 163-78-46-27-52-44 57-27-32z"/>
+    <path fill="#a4c9c6" d="m491 405 128-160 94 94-78-24-25-20-37 61-29-10z"/>
+    <path fill="#203f50" opacity=".49" d="m231 195 197 289-130-21-33-151zm388 50 174 174-147-27-10-77z"/>
+    <path fill="url(#lake)" d="M0 479c240-34 302 12 486 7 209-7 294-37 474-5v239H0z"/>
+    <path fill="#bcddd1" opacity=".45" d="M128 503h258v3H128zm444 35h237v3H572zm-351 53h211v2H221zm269 36h342v3H490z"/>
+    <path fill="#1a5459" d="M0 424c111 12 211 65 349 128C245 576 93 579 0 563z"/>
+    <path fill="#30736c" d="M960 468c-111 26-171 50-245 88 87-6 173-3 245 18z"/>
+    <path fill="url(#near)" d="M0 588c151-43 221-29 346 44 178 108 361-2 614-39v127H0z"/>
+    <g fill="#174b4d"><path d="m64 527 25-96 26 96h-16v58H80v-58zm63 49 29-115 31 115h-20v70h-22v-70zm708 51 30-126 32 126h-20v72h-23v-72zm67-54 24-103 27 103h-18v63h-16v-63z"/></g>
+    <path fill="none" stroke="#a6d3c4" stroke-width="2" opacity=".36" d="M374 565c100-5 196-1 280-5M419 587h161M468 652h125"/>
+  </g>
+</svg>

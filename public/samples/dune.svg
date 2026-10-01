@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#d69a90"/><stop offset=".55" stop-color="#efc9ad"/><stop offset="1" stop-color="#f0d5af"/></linearGradient>
+    <linearGradient id="far" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#d69477"/><stop offset="1" stop-color="#b96c57"/></linearGradient>
+    <linearGradient id="middle" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9af7c"/><stop offset="1" stop-color="#bd6550"/></linearGradient>
+    <linearGradient id="near" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#cb7356"/><stop offset="1" stop-color="#783e45"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#ffedbd" stop-opacity=".55"/><stop offset="1" stop-color="#ffedbd" stop-opacity="0"/></radialGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".07"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+  </defs>
+  <g filter="url(#grain)">
+    <path fill="url(#sky)" d="M0 0h960v720H0z"/>
+    <ellipse fill="url(#glow)" cx="698" cy="246" rx="240" ry="228"/>
+    <circle fill="#ffe6b3" cx="700" cy="228" r="69"/>
+    <path fill="#c69286" opacity=".34" d="M0 401c164-45 294-27 442 10 115-25 285-19 518-65v374H0z"/>
+    <path fill="url(#far)" d="M0 450c154-144 240-155 374-62 110 77 245 147 586 75v257H0z"/>
+    <path fill="#f4c998" opacity=".7" d="M0 450c154-144 240-155 374-62-140-49-242-23-374 91z"/>
+    <path fill="url(#middle)" d="M0 564c272 18 372-90 556-157 155-56 265 10 404 121v192H0z"/>
+    <path fill="#f1c395" d="M0 564c272 18 372-90 556-157 155-56 265 10 404 121-171-94-288-149-411-92C338 535 244 599 0 591z" opacity=".73"/>
+    <path fill="url(#near)" d="M0 599c168-68 326-87 441-32 143 68 285 119 519 84v69H0z"/>
+    <path fill="none" stroke="#ebad7f" stroke-width="2" opacity=".38" d="M20 598c157-58 296-69 421-31M380 633c205 74 370 78 540 52M414 648c188 67 344 74 506 59"/>
+    <path fill="none" stroke="#a86860" stroke-width="2" stroke-linecap="round" opacity=".5" d="m90 244 12-5 12 5m25 28 10-4 10 4"/>
+  </g>
+</svg>

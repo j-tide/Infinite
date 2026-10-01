@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#343d76"/><stop offset=".48" stop-color="#947ab2"/><stop offset="1" stop-color="#e7a8b4"/></linearGradient>
+    <linearGradient id="far" x2="0" y2="1"><stop stop-color="#9c7bad"/><stop offset="1" stop-color="#65598a"/></linearGradient>
+    <linearGradient id="mountain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#575786"/><stop offset="1" stop-color="#393e70"/></linearGradient>
+    <linearGradient id="lake" x2="0" y2="1"><stop stop-color="#b797bd"/><stop offset="1" stop-color="#485a85"/></linearGradient>
+    <linearGradient id="foreground" x2=".8" y2="1"><stop stop-color="#3a486e"/><stop offset="1" stop-color="#242e50"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#ffdad3" stop-opacity=".35"/><stop offset="1" stop-color="#ffdad3" stop-opacity="0"/></radialGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".07"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
+  </defs>
+  <g filter="url(#grain)">
+    <path fill="url(#sky)" d="M0 0h960v720H0z"/>
+    <circle fill="url(#halo)" cx="647" cy="235" r="170"/>
+    <circle fill="#f9d8d3" cx="647" cy="231" r="52"/>
+    <g fill="#e2d3f0"><circle cx="99" cy="139" r="2"/><circle cx="220" cy="79" r="2.5"/><circle cx="330" cy="203" r="1.5"/><circle cx="481" cy="121" r="2"/><circle cx="831" cy="129" r="2"/><circle cx="752" cy="55" r="1.5"/><circle cx="874" cy="248" r="1.5"/></g>
+    <path fill="url(#far)" d="M0 442 141 352 262 380 391 302 544 427 713 356 844 387 960 335v254H0z"/>
+    <path fill="url(#mountain)" d="M0 498 210 282 441 517 648 376 798 471 960 400v232H0z"/>
+    <path fill="#ab91b8" d="m135 359 75-77 95 97-66-25-33-29-26 39-19-20z"/>
+    <path fill="#443f71" d="m210 282 231 235-173-65-29-98z" opacity=".65"/>
+    <path fill="url(#lake)" d="M0 517c206-31 338 38 486 29 187-11 292-50 474-26v200H0z"/>
+    <path fill="#deb5c9" opacity=".6" d="M573 565h148v3H573zm-23 18h190v3H550zm-31 21h237v3H519zm-51 29h299v3H468zm-55 38h400v3H413z"/>
+    <path fill="#455780" d="M0 478c86-4 191 48 327 95C228 598 116 596 0 584z"/>
+    <path fill="#5c618d" d="M960 498c-130 4-159 48-275 92 125-18 204-3 275 17z"/>
+    <path fill="url(#foreground)" d="M0 644c123-69 217-64 354-6 138 59 281 41 398-1 76-28 144-29 208-9v92H0z"/>
+    <g fill="#253953"><path d="m69 619 28-113 29 113h-19v58H88v-58zm83-16 37-158 38 158h-25v79h-26v-79zm659 40 26-105 27 105h-18v48h-18v-48zm57-16 33-144 35 144h-23v72h-22v-72z"/></g>
+    <path fill="none" stroke="#bab4d0" stroke-width="2" opacity=".35" d="M298 566h185M311 612h113M769 554h82"/>
+  </g>
+</svg>
