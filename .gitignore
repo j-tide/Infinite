@@ -1,0 +1,67 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+out/
+coverage/
+*.tsbuildinfo
+
+# Generated delivery archives
+/infinite-canvas-*.zip
+
+# Test artifacts
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Environment files (examples must contain placeholders only)
+*.local
+.env*
+!.env.example
+
+# IDE, editor, and operating-system files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs, caches, and temporary files
+*.log
+.cache/
+.vite/
+.turbo/
+.npm/
+.eslintcache
+.stylelintcache
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Credentials, private keys, and certificates
+.ssh/
+.aws/
+secrets/
+credentials/
+.netrc
+.npmrc
+.pypirc
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+credentials.json
+service-account*.json
+*-credentials.json
+*.secret
