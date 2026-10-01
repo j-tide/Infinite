@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@xyflow/react/dist/style.css';
-import App from './App';
+import App from './app/App';
 import './app/styles/tailwind.css';
 import './styles.css';
 
