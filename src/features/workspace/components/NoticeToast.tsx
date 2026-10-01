@@ -1,5 +1,5 @@
 import { CircleHelp, X } from 'lucide-react';
-import { useCanvasStore } from '../../../store';
+import { useCanvasStore } from '../../canvas/store/canvasStore';
 
 export function NoticeToast() {
   const notice = useCanvasStore(state => state.notice);

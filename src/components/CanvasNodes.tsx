@@ -1,7 +1,8 @@
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import { AlertCircle, Check, Image as ImageIcon, LoaderCircle, RotateCcw, Sparkles, Trash2, Type, ArrowUpRight } from 'lucide-react';
-import { getInputs, getLatestTask, type CanvasNode } from '../domain';
-import { useCanvasStore } from '../store';
+import { getInputs, getLatestTask } from '../features/canvas/utils/graph';
+import type { CanvasNode } from '../features/canvas/types';
+import { useCanvasStore } from '../features/canvas/store/canvasStore';
 import './nodes.css';
 
 function Heading({ id, label, kind }: { id: string; label: string; kind: 'image' | 'prompt' | 'generator' }) {

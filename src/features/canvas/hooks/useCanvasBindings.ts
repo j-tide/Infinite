@@ -1,7 +1,7 @@
 import type { Connection, Edge } from '@xyflow/react';
 import { useShallow } from 'zustand/react/shallow';
-import { isValidConnection } from '../../../domain';
-import { useCanvasStore } from '../../../store';
+import { isValidConnection } from '../utils/graph';
+import { useCanvasStore } from '../store/canvasStore';
 
 export function useCanvasBindings() {
   const doc = useCanvasStore(state => state.doc);

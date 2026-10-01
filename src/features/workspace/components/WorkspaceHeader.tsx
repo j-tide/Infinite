@@ -1,5 +1,5 @@
 import { Check, ChevronRight, CircleHelp, Infinity as InfinityIcon, LoaderCircle } from 'lucide-react';
-import { useCanvasStore } from '../../../store';
+import { useCanvasStore } from '../../canvas/store/canvasStore';
 
 interface WorkspaceHeaderProps {
   helpOpen: boolean;

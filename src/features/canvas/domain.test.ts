@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import type { CanvasDocument, Task } from './domain'
-import {
-  createEmptyDocument, getInputs, getLatestTask, isValidConnection, restoreDocument,
-  SAMPLE_ASSETS, screenToWorld, serializeDocument,
-} from './domain'
+import { SAMPLE_ASSETS } from './constants'
+import { restoreDocument, serializeDocument } from './services/documentPersistence'
+import type { CanvasDocument, Task } from './types'
+import { screenToWorld } from './utils/coordinates'
+import { createEmptyDocument, getInputs, getLatestTask, isValidConnection } from './utils/graph'
 
 function fixture(): CanvasDocument {
   const doc = createEmptyDocument()

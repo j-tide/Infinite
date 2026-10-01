@@ -1,6 +1,6 @@
 import type { PropsWithChildren, RefObject } from 'react';
 import { Background, BackgroundVariant, ReactFlow, type Edge } from '@xyflow/react';
-import type { CanvasNode } from '../../../domain';
+import type { CanvasNode } from '../types';
 import { nodeTypes } from '../../../components/CanvasNodes';
 import { useCanvasBindings } from '../hooks/useCanvasBindings';
 

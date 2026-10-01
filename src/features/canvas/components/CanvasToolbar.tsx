@@ -1,5 +1,5 @@
 import { LoaderCircle, Trash2 } from 'lucide-react';
-import { useCanvasStore } from '../../../store';
+import { useCanvasStore } from '../store/canvasStore';
 
 export function CanvasToolbar() {
   const nodeCount = useCanvasStore(state => state.doc.nodes.length);

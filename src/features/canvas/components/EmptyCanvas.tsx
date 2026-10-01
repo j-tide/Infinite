@@ -1,6 +1,6 @@
 import { ArrowRight, ChevronRight, Plus, Sparkles, Type } from 'lucide-react';
-import { SAMPLE_ASSETS } from '../../../domain';
-import { useCanvasStore } from '../../../store';
+import { SAMPLE_ASSETS } from '../constants';
+import { useCanvasStore } from '../store/canvasStore';
 
 export function EmptyCanvas({ onAddPrompt }: { onAddPrompt(): void }) {
   const isEmpty = useCanvasStore(state => state.doc.nodes.length === 0);

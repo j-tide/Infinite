@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { useReactFlow, type Edge } from '@xyflow/react';
 import { useShallow } from 'zustand/react/shallow';
-import { SAMPLE_ASSETS, type CanvasNode, type NodeKind } from '../../../domain';
-import { useCanvasStore } from '../../../store';
+import { SAMPLE_ASSETS } from '../constants';
+import type { CanvasNode, NodeKind } from '../types';
+import { useCanvasStore } from '../store/canvasStore';
 import { findNodePlacement } from '../utils/placement';
 
 export interface CanvasCreationActions {

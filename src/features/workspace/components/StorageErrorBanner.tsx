@@ -1,5 +1,5 @@
 import { useShallow } from 'zustand/react/shallow';
-import { useCanvasStore } from '../../../store';
+import { useCanvasStore } from '../../canvas/store/canvasStore';
 
 export function StorageErrorBanner() {
   const { saveStatus, recoveryBlocked, saveError, startFresh, retrySave } = useCanvasStore(useShallow(state => ({

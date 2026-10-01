@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getInputs, serializeDocument, STORAGE_KEY } from './domain'
-import { createCanvasStore } from './store'
+import { STORAGE_KEY } from '../constants'
+import { serializeDocument } from '../services/documentPersistence'
+import { getInputs } from '../utils/graph'
+import { createCanvasStore } from './canvasStore'
 
 class MemoryStorage {
   values = new Map<string, string>()

@@ -1,5 +1,5 @@
 import { ImagePlus, Layers3, Plus, Sparkles, Type } from 'lucide-react';
-import { SAMPLE_ASSETS } from '../../../domain';
+import { SAMPLE_ASSETS } from '../../canvas/constants';
 import type { CanvasCreationActions } from '../../canvas/hooks/useCanvasCreation';
 
 export function WorkspaceSidebar({ creation }: { creation: CanvasCreationActions }) {

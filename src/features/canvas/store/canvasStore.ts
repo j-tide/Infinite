@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import { applyNodeChanges, applyEdgeChanges, type NodeChange, type EdgeChange, type Connection, type Viewport, type XYPosition } from '@xyflow/react';
-import { createEmptyDocument, getInputs, getLatestTask, isActiveTask, isValidConnection, restoreDocument, serializeDocument, SAMPLE_ASSETS, RESULT_SRC, STORAGE_KEY, type CanvasDocument, type CanvasNode, type NodeData, type Task, type Asset } from './domain';
+import { RESULT_SRC, SAMPLE_ASSETS, STORAGE_KEY } from '../constants';
+import { restoreDocument, serializeDocument } from '../services/documentPersistence';
+import type { Asset, CanvasDocument, CanvasNode, NodeData, Task } from '../types';
+import { createEmptyDocument, getInputs, getLatestTask, isActiveTask, isValidConnection } from '../utils/graph';
 
 export interface CanvasStore {
   doc: CanvasDocument;

@@ -1,5 +1,5 @@
 import type { XYPosition } from '@xyflow/react';
-import type { CanvasNode, NodeKind } from '../../../domain';
+import type { CanvasNode, NodeKind } from '../types';
 
 /** Find free space in world coordinates without changing the existing placement rules. */
 export function findNodePlacement(nodes: CanvasNode[], kind: NodeKind, initial: XYPosition): XYPosition {

@@ -1,6 +1,6 @@
 import { useReactFlow, type Edge } from '@xyflow/react';
-import type { CanvasNode } from '../../../domain';
-import { useCanvasStore } from '../../../store';
+import type { CanvasNode } from '../types';
+import { useCanvasStore } from '../store/canvasStore';
 
 export function useCanvasControls() {
   const flow = useReactFlow<CanvasNode, Edge>();
