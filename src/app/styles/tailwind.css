@@ -1,0 +1,26 @@
+/* Keep the existing browser defaults during the visual-preserving migration. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Match the original inclusive responsive boundaries. */
+@custom-variant compact (@media (width <= 1100px));
+@custom-variant narrow (@media (width <= 760px));
+
+@theme {
+  --color-app: #151519;
+  --color-header: #19191e;
+  --color-sidebar: #1b1b21;
+  --color-foreground: #eeeef1;
+  --color-muted: #83838e;
+  --color-accent: #b8a1ff;
+  --color-accent-hover: #cdb9ff;
+  --color-accent-ink: #282033;
+  --color-border: #2b2b34;
+  --color-panel: #25252e;
+  --color-panel-border: #353540;
+  --color-panel-hover: #33303e;
+  --color-positive: #91c5ae;
+  --color-error: #f3a69b;
+  --animate-spinning: spin 1.4s linear infinite;
+}

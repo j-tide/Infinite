@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@xyflow/react/dist/style.css';
 import App from './App';
+import './app/styles/tailwind.css';
 import './styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
