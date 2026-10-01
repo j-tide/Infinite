@@ -38,6 +38,16 @@
 
 实际界面证据：[空画布](evidence/canvas-empty.png)、[生成成功](evidence/canvas-generated.png)、[结果复用验收](evidence/canvas-reuse.png)。截图来自实际应用运行，没有将预置结果描述为现场生成。这里记录的是工具运行与 AI 修正过程；截图不替代原始聊天导出。
 
+## 2026-10-01：前端重构后的 OpenSpec 验收
+
+用户要求以 OpenSpec 验收重构，确保已有功能保持。Codex 读取既有 `build-p0-canvas-demo` 的 proposal、design、tasks 和三份行为规范，逐项核对 13 条需求、15 个场景的实现与测试；保持行为规范不变。`openspec validate` 只作为工件结构校验，功能结论另以代码审查和运行测试支撑。
+
+AI 补充 7 项真实浏览器测试，并抽取共享测试 helper，使用应用的 `CanvasDocument` 类型。原有 8 项画布测试和 2 项工作区测试的断言保持，应用源码没有修改。新增覆盖连线取消选择、键盘/标题删除、排队刷新、删除输入节点后的原快照重试、未知版本保护、存储读取失败恢复、采用当前输入重新生成和多节点导航。
+
+实际结果：`npm ci` 成功，安装审计为 0 vulnerabilities；26 项单元测试、17 项 Chromium E2E（1.1 分钟、无重试）、TypeScript 检查及生产构建通过；OpenSpec 全部工件严格校验通过、doctor 状态健康。重构前后状态及持久化业务函数、三份行为规范逐项比对一致。11 组视觉对比沿用此前重构阶段的证据，本轮核对对应源码未变化，没有把它们描述为本轮重新截图。
+
+验收矩阵、基线及复现命令记录于 [OpenSpec 验收报告](../openspec/changes/build-p0-canvas-demo/verification.md)。本轮未归档变更，也未将行为规范改写为适配现有代码。
+
 ## AI 与人工职责
 
 AI 生成或修改了本题应用、OpenSpec 工件、测试、SVG 及说明文档。用户确认了产品范围与关键恢复策略；尚未记录用户独立完成的人工代码修改。依赖能力、AI 编写部分和验证方式同时在 README 中列出。后续现场讲解、确认源码理解及实际提交由使用者完成。
