@@ -98,18 +98,25 @@ p_w = (p_s - t) / z
 | Vite、React 插件 | 本地开发及生产构建 |
 | React Flow (`@xyflow/react`) | 画布坐标、视口、节点拖动、连接与选择 |
 | Zustand | 受控领域状态和操作接口 |
+| Tailwind CSS、Vite 插件 | utility 样式、设计 token 和构建集成 |
 | lucide-react | 界面图标 |
 | Vitest | 领域与任务单元验证 |
 | Playwright | 实际浏览器交互、刷新和坐标验收 |
 | 内置 SVG | 本题自创的沙丘、山湖、花瓣和暮色风景，无外链素材 |
 
-本题实现的关键部分是领域实体及引用关系、类型化连接校验、任务输入快照与异步生命周期、一次性失败／重试、独立结果、删除清理、版本化恢复及自定义节点界面。React Flow 的通用画布能力直接复用库实现。界面使用普通 CSS，无额外组件框架。
+本题实现的关键部分是领域实体及引用关系、类型化连接校验、任务输入快照与异步生命周期、一次性失败／重试、独立结果、删除清理、版本化恢复及自定义节点界面。React Flow 的通用画布能力直接复用库实现。界面使用 Tailwind utility classes 与语义设计 token，共享按钮和节点结构通过组件复用。原生 CSS 仅保留基础规则及 React Flow 覆盖。
 
 开发过程使用 Codex 辅助需求梳理、OpenSpec 规划、编码和验证；相关决定与真实验证结果记录在 [AI 使用记录](docs/AI_USAGE.md)。该记录是当前可获取对话的整理稿，不冒充原始完整导出。OpenSpec 规划工件位于 `openspec/changes/build-p0-canvas-demo/`。
 
+## 前端架构
+
+应用入口位于 `src/app/App.tsx`，仅组合 Provider 与 `WorkspacePage`。页面、canvas/workspace feature、共享 UI、hooks、store、持久化服务及图工具按职责分层；现有业务与存储格式保持不变。目录、依赖方向、样式规则及扩展约定见 [前端架构与维护约定](docs/FRONTEND_ARCHITECTURE.md)。
+
+2026-10-01 架构重构验收：26 项单元测试、10 项浏览器 E2E、TypeScript 检查与生产构建通过；包含响应式布局和任务状态的 11 组视觉场景与重构前逐像素一致。
+
 ## 验证状态与已知限制
 
-2026-10-01 已完成本机 Node 20.16 / Chrome 集成验收：
+P0 初次验收（2026-10-01，Node 20.16 / Chrome）的记录如下；架构重构后的验收见上节：
 
 | 检查 | 实际结果 |
 | --- | --- |
