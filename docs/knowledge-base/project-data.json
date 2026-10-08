@@ -372,7 +372,7 @@
         "恢复坏数据不覆盖"
       ],
       "score": 66,
-      "deepDiveCommand": "阅读 docs/knowledge-base/02-architecture.md 与对应章节"
+      "deepDiveCommand": "阅读 docs/knowledge-base/README.md#架构与源码地图 与对应章节"
     },
     {
       "id": "features:workspace",
@@ -409,7 +409,7 @@
         "保存失败与恢复失败是不同分支"
       ],
       "score": 17,
-      "deepDiveCommand": "阅读 docs/knowledge-base/02-architecture.md 与对应章节"
+      "deepDiveCommand": "阅读 docs/knowledge-base/README.md#架构与源码地图 与对应章节"
     },
     {
       "id": "src:app",
@@ -443,7 +443,7 @@
         "useReactFlow 必须在 Provider 内"
       ],
       "score": 5,
-      "deepDiveCommand": "阅读 docs/knowledge-base/02-architecture.md 与对应章节"
+      "deepDiveCommand": "阅读 docs/knowledge-base/README.md#架构与源码地图 与对应章节"
     },
     {
       "id": "components:ui",
@@ -475,7 +475,7 @@
         "共享 UI 不直接读取业务 store"
       ],
       "score": 5,
-      "deepDiveCommand": "阅读 docs/knowledge-base/02-architecture.md 与对应章节"
+      "deepDiveCommand": "阅读 docs/knowledge-base/README.md#架构与源码地图 与对应章节"
     },
     {
       "id": "pages:workspace",
@@ -506,7 +506,7 @@
         "页面不承接任务状态机"
       ],
       "score": 5,
-      "deepDiveCommand": "阅读 docs/knowledge-base/02-architecture.md 与对应章节"
+      "deepDiveCommand": "阅读 docs/knowledge-base/README.md#架构与源码地图 与对应章节"
     },
     {
       "id": "components:layout",
@@ -533,7 +533,7 @@
         "修改布局需检查窄视口与画布容器坐标"
       ],
       "score": 2,
-      "deepDiveCommand": "阅读 docs/knowledge-base/02-architecture.md 与对应章节"
+      "deepDiveCommand": "阅读 docs/knowledge-base/README.md#架构与源码地图 与对应章节"
     }
   ],
   "source": {
@@ -575,7 +575,7 @@
       ]
     },
     "importantFiles": [
-      "docs/knowledge-base/01-overview.md",
+      "docs/knowledge-base/README.md#项目概览",
       "src/main.tsx",
       "src/features/canvas/types.ts",
       "src/features/canvas/utils/graph.ts",
@@ -592,9 +592,9 @@
     "readingPath": [
       {
         "title": "确认产品范围",
-        "path": "docs/knowledge-base/01-overview.md",
+        "path": "docs/knowledge-base/README.md#项目概览",
         "note": "单项目、固定 mock、无后端；先分清已经实现与未来方案。",
-        "evidence": "docs/knowledge-base/01-overview.md"
+        "evidence": "docs/knowledge-base/README.md#项目概览"
       },
       {
         "title": "沿入口建立页面地图",
@@ -985,9 +985,9 @@
     "readingPath": [
       {
         "title": "确认产品范围",
-        "path": "docs/knowledge-base/01-overview.md",
+        "path": "docs/knowledge-base/README.md#项目概览",
         "note": "单项目、固定 mock、无后端；先分清已经实现与未来方案。",
-        "evidence": "docs/knowledge-base/01-overview.md"
+        "evidence": "docs/knowledge-base/README.md#项目概览"
       },
       {
         "title": "沿入口建立页面地图",
@@ -1031,13 +1031,13 @@
         "label": "任务生命周期",
         "path": "src/features/canvas/store/canvasStore.ts",
         "reason": "输入快照、失败重试、删除竞争和独立结果。",
-        "command": "阅读 docs/knowledge-base/04-flows.md"
+        "command": "阅读 docs/knowledge-base/README.md#核心执行流程"
       },
       {
         "label": "保存恢复协议",
         "path": "src/features/canvas/services/documentPersistence.ts",
         "reason": "版本校验、引用完整性、刷新中断和原始数据保护。",
-        "command": "阅读 docs/knowledge-base/05-persistence.md"
+        "command": "阅读 docs/knowledge-base/README.md#保存与恢复"
       }
     ],
     "nextActions": [
@@ -1048,7 +1048,7 @@
   "aiPack": {
     "summary": "Infinite 是单项目纯前端智能画布 P0 Demo。图片与提示词连接到生成节点，提交时冻结输入和比例；浏览器定时器模拟任务并新增独立结果。状态由 Zustand 管理，localStorage v1 保存与恢复。无真实模型 API、账号或上传。",
     "importantFiles": [
-      "docs/knowledge-base/01-overview.md",
+      "docs/knowledge-base/README.md#项目概览",
       "src/main.tsx",
       "src/features/canvas/types.ts",
       "src/features/canvas/utils/graph.ts",
