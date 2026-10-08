@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Infinite 项目知识库 - 项目接手导航器</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --surface-2: #f9fbfc;
+      --text: #18202a;
+      --muted: #667085;
+      --subtle: #8a94a6;
+      --line: #d9e1ea;
+      --line-strong: #b9c5d2;
+      --blue: #1769e0;
+      --green: #147d64;
+      --amber: #a05a00;
+      --red: #b42318;
+      --ink: #263445;
+      --shadow: 0 8px 24px rgba(24, 32, 42, .08);
+      --radius: 8px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      letter-spacing: 0;
+    }
+    button, input, textarea { font: inherit; }
+    button {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--line-strong); background: var(--surface-2); }
+    a { color: var(--blue); text-decoration: none; }
+    code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #eef2f6;
+      color: #24364b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      word-break: break-word;
+    }
+    .app-shell {
+      display: grid;
+      grid-template-columns: 236px minmax(0, 1fr) 318px;
+      min-height: 100vh;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      background: var(--surface);
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+    }
+    .brand { font-size: 17px; font-weight: 760; line-height: 1.25; color: var(--ink); }
+    .brand-sub { margin-top: 6px; color: var(--muted); font-size: 12px; }
+    .nav { display: grid; gap: 3px; margin-top: 20px; }
+    .nav a {
+      display: block;
+      color: var(--ink);
+      padding: 7px 9px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .nav a:hover { background: #eef3f8; }
+    .main {
+      min-width: 0;
+      padding: 24px 28px 54px;
+    }
+    .inspector {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      background: var(--surface);
+      border-left: 1px solid var(--line);
+      padding: 18px 16px;
+    }
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 760; }
+    h1 { margin: 5px 0 8px; font-size: 28px; line-height: 1.24; letter-spacing: 0; }
+    h2 { margin: 0 0 12px; font-size: 19px; line-height: 1.3; letter-spacing: 0; }
+    h3 { margin: 16px 0 8px; font-size: 15px; line-height: 1.35; letter-spacing: 0; }
+    p { margin: 8px 0; }
+    .summary { max-width: 920px; color: #2f4053; font-size: 16px; line-height: 1.75; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #edf4ff;
+      color: #174a8c;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .pill.green { background: #e8f6f1; color: var(--green); }
+    .pill.amber { background: #fff4df; color: var(--amber); }
+    .pill.red { background: #fff0ef; color: var(--red); }
+    .section {
+      margin-top: 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      overflow: auto;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+      gap: 16px;
+      align-items: start;
+      margin-top: 16px;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+    .stat {
+      min-height: 82px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: var(--surface-2);
+    }
+    .stat .label { color: var(--muted); font-size: 12px; }
+    .stat .value { margin-top: 5px; font-size: 18px; font-weight: 760; word-break: break-word; }
+    .muted { color: var(--muted); }
+    .subtle { color: var(--subtle); }
+    .timeline { display: grid; gap: 10px; }
+    .step {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 9px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+    }
+    .step:hover { border-color: var(--line); background: var(--surface-2); }
+    .step-index {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 760;
+      font-size: 12px;
+    }
+    .step-title { font-weight: 760; }
+    .step-note { color: var(--muted); font-size: 13px; }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .search {
+      width: min(560px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 9px 11px;
+      background: #fff;
+      color: var(--text);
+    }
+    .search-results {
+      display: none;
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+    }
+    .search-results.active { display: block; }
+    .result-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 10px;
+      padding: 9px 11px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+    .result-row:last-child { border-bottom: 0; }
+    .result-row:hover { background: var(--surface-2); }
+    .result-kind { color: var(--blue); font-size: 12px; font-weight: 720; }
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .lane {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      padding: 12px;
+      min-height: 120px;
+    }
+    .lane ul { padding-left: 17px; margin: 8px 0 0; }
+    .lane li { margin: 4px 0; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .flow-node {
+      min-height: 78px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+    .flow-node strong { display: block; }
+    .flow-node span { display: block; color: var(--muted); font-size: 12px; margin-top: 5px; }
+    .domain-list { display: grid; gap: 8px; margin-top: 10px; }
+    .domain-row {
+      display: grid;
+      grid-template-columns: minmax(180px, .9fr) minmax(0, 1.35fr) 92px 92px 88px;
+      gap: 10px;
+      align-items: center;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      cursor: pointer;
+    }
+    .domain-row:hover { border-color: var(--line-strong); background: var(--surface-2); }
+    .domain-name { font-weight: 760; }
+    .domain-path { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .bar-list { display: grid; gap: 9px; margin-top: 10px; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(140px, 220px) minmax(0, 1fr) 48px;
+      gap: 10px;
+      align-items: center;
+    }
+    .bar-track { height: 8px; border-radius: 999px; overflow: hidden; background: #e8edf3; }
+    .bar-value { height: 100%; background: var(--green); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    th, td {
+      padding: 8px 9px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      word-break: break-word;
+    }
+    th { color: var(--muted); font-size: 12px; background: #fafbfd; font-weight: 760; }
+    .risk-high { color: var(--red); font-weight: 760; }
+    .risk-medium { color: var(--amber); font-weight: 760; }
+    .risk-low { color: var(--green); font-weight: 760; }
+    .textarea {
+      width: 100%;
+      min-height: 240px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 11px;
+      resize: vertical;
+      background: #fbfcfe;
+      color: var(--ink);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .inspector h2 { margin-top: 0; }
+    .inspect-empty {
+      padding: 12px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: var(--surface-2);
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      gap: 6px 10px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+    .kv .k { color: var(--muted); }
+    .list { margin: 8px 0 0; padding-left: 18px; }
+    .list li { margin: 5px 0; }
+    .empty { color: var(--muted); padding: 10px 0; }
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .tool-status {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .tool {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      background: var(--surface-2);
+    }
+    @media (max-width: 1180px) {
+      .app-shell { grid-template-columns: 220px minmax(0, 1fr); }
+      .inspector { position: relative; grid-column: 1 / -1; height: auto; border-left: 0; border-top: 1px solid var(--line); }
+    }
+    @media (max-width: 820px) {
+      .app-shell { display: block; }
+      .sidebar { position: relative; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .main { padding: 16px; }
+      .two-col { grid-template-columns: 1fr; }
+      .domain-row { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 1fr 1fr 42px; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+
+    <div id="app" class="app-shell"></div>
+
+<script id="project-data" type="application/json">{"schemaVersion":2,"metadata":{"name":"Infinite 项目知识库","repoPath":".","generatedAt":"2026-10-08T12:48:35.037Z","fileCount":90,"git":{"isGitRepo":true,"root":".","branch":"main","commit":"917b3f1","remote":"https://github.com/j-tide/Infinite.git","dirty":false},"stack":["React 19","TypeScript","React Flow 12.12","Zustand 5","Tailwind CSS 4","Vite 6"],"packageManager":"npm","summary":"Infinite 是单项目纯前端智能画布 P0 Demo。图片与提示词连接到生成节点，提交时冻结输入和比例；浏览器定时器模拟任务并新增独立结果。状态由 Zustand 管理，localStorage v1 保存与恢复。无真实模型 API、账号或上传。"},"catalog":{"kind":"Component","type":"智能图片创作画布前端","lifecycle":"P0 Demo","owner":"j-tide","tags":["纯前端","单项目","固定 mock","版本 1 存储"],"systems":["浏览器","localStorage","内置 SVG"],"evidence":[{"type":"README","path":"README.md"},{"type":"config","path":"package.json"},{"type":"config","path":"tsconfig.json"},{"type":"config","path":"vite.config.ts"}]},"runbook":{"packageManager":"npm","commands":{"dev":[{"name":"dev","command":"vite --host 127.0.0.1"},{"name":"preview","command":"vite preview --host 127.0.0.1"}],"build":[{"name":"build","command":"tsc --noEmit \u0026\u0026 vite build"}],"test":[{"name":"test","command":"vitest run"},{"name":"test:watch","command":"vitest"},{"name":"test:e2e","command":"playwright test"}],"lint":[],"typecheck":[],"format":[],"other":[]},"devCommand":"npm run dev","buildCommand":"npm run build","verifyCommand":"npm run test","envFiles":[],"ci":[],"status":"unit-build-verified","verification":[{"name":"test","command":"npm test","ok":true,"stdout":"2026-10-08：2 个文件，26 项单元测试通过。"},{"name":"build","command":"npm run build","ok":true,"stdout":"2026-10-08：TypeScript 检查与 Vite 生产构建通过。"},{"name":"test:e2e","command":"npm run test:e2e","skipped":true,"reason":"本次仅整理文档；17 项 E2E 的历史通过记录见 2026-10-01 验收报告。"}],"blockers":[]},"architecture":{"style":"C4-lite","context":[],"containers":[],"components":[{"id":"entry","label":"应用入口","detail":"src/main.tsx","layer":"启动","type":"component"},{"id":"provider","label":"React Flow 上下文","detail":"src/app/providers/AppProviders.tsx","layer":"启动","type":"component"},{"id":"page","label":"工作区页面","detail":"src/pages/workspace/WorkspacePage.tsx","layer":"界面","type":"component"},{"id":"canvas","label":"受控画布与节点","detail":"src/features/canvas/components/CanvasSurface.tsx","layer":"界面","type":"component"},{"id":"hooks","label":"UI 与领域适配","detail":"src/features/canvas/hooks/useGeneratorNode.ts","layer":"适配","type":"component"},{"id":"state","label":"Zustand 文档与任务","detail":"src/features/canvas/store/canvasStore.ts","layer":"领域","type":"component"},{"id":"persist","label":"文档校验与序列化","detail":"src/features/canvas/services/documentPersistence.ts","layer":"持久化","type":"component"},{"id":"storage","label":"localStorage","detail":"src/features/canvas/constants.ts","layer":"持久化","type":"component"},{"id":"samples","label":"固定 SVG mock","detail":"public/samples/result.svg","layer":"资源","type":"component"}],"nodes":[{"id":"entry","label":"应用入口","detail":"src/main.tsx","layer":"启动","type":"component"},{"id":"provider","label":"React Flow 上下文","detail":"src/app/providers/AppProviders.tsx","layer":"启动","type":"component"},{"id":"page","label":"工作区页面","detail":"src/pages/workspace/WorkspacePage.tsx","layer":"界面","type":"component"},{"id":"canvas","label":"受控画布与节点","detail":"src/features/canvas/components/CanvasSurface.tsx","layer":"界面","type":"component"},{"id":"hooks","label":"UI 与领域适配","detail":"src/features/canvas/hooks/useGeneratorNode.ts","layer":"适配","type":"component"},{"id":"state","label":"Zustand 文档与任务","detail":"src/features/canvas/store/canvasStore.ts","layer":"领域","type":"component"},{"id":"persist","label":"文档校验与序列化","detail":"src/features/canvas/services/documentPersistence.ts","layer":"持久化","type":"component"},{"id":"storage","label":"localStorage","detail":"src/features/canvas/constants.ts","layer":"持久化","type":"component"},{"id":"samples","label":"固定 SVG mock","detail":"public/samples/result.svg","layer":"资源","type":"component"}],"edges":[{"from":"entry","to":"provider","label":"挂载"},{"from":"provider","to":"page","label":"上下文"},{"from":"page","to":"canvas","label":"组合"},{"from":"canvas","to":"hooks","label":"界面事件与展示"},{"from":"hooks","to":"state","label":"读取与操作"},{"from":"state","to":"canvas","label":"受控图数据"},{"from":"state","to":"persist","label":"序列化与恢复"},{"from":"state","to":"storage","label":"读写"},{"from":"state","to":"samples","label":"生成结果引用"}],"lanes":[{"label":"启动与页面","items":["main.tsx → App → ReactFlowProvider","WorkspacePage → CanvasWorkspace → CanvasSurface"]},{"label":"交互与领域","items":["React Flow 负责坐标、拖动、视口与端口","hooks → Zustand store → graph 工具"]},{"label":"任务与存储","items":["submit → queued → running → finish","600 ms + 1600 ms 固定 mock","serialize/restore ↔ localStorage v1"]}]},"domains":[{"id":"features:canvas","name":"画布与创作领域","path":"src/features/canvas","layer":"业务模块","purpose":"节点/连线/资产/任务/视口、快照生成与重试、保存恢复。","files":31,"sourceFiles":31,"apiCount":0,"stateCount":1,"entryCount":0,"evidence":["src/features/canvas/components/CanvasControls.tsx","src/features/canvas/components/CanvasFooter.tsx","src/features/canvas/components/CanvasSurface.tsx","src/features/canvas/components/CanvasToolbar.tsx","src/features/canvas/components/CanvasWorkspace.tsx"],"keyFiles":["src/features/canvas/types.ts","src/features/canvas/store/canvasStore.ts","src/features/canvas/services/documentPersistence.ts","src/features/canvas/utils/graph.ts"],"upstream":["features:workspace","src:main.tsx","pages:workspace"],"downstream":["components:ui","lib:cn.ts"],"riskHints":["输入类型与每端口单连接","重试使用原快照","删除节点保留资产历史","恢复坏数据不覆盖"],"score":66,"deepDiveCommand":"阅读 docs/knowledge-base/02-architecture.md 与对应章节"},{"id":"features:workspace","name":"工作区工具与反馈","path":"src/features/workspace","layer":"业务模块","purpose":"页头、创建工具、素材库、操作指南、notice 和存储错误横幅。","files":7,"sourceFiles":7,"apiCount":0,"stateCount":0,"entryCount":0,"evidence":["src/features/workspace/components/CreationTools.tsx","src/features/workspace/components/HelpPanel.tsx","src/features/workspace/components/NoticeToast.tsx","src/features/workspace/components/SampleLibrary.tsx","src/features/workspace/components/StorageErrorBanner.tsx"],"keyFiles":["src/features/workspace/components/WorkspaceHeader.tsx","src/features/workspace/components/WorkspaceSidebar.tsx","src/features/workspace/components/StorageErrorBanner.tsx"],"upstream":["pages:workspace"],"downstream":["lib:cn.ts","features:canvas","components:ui"],"riskHints":["保存失败与恢复失败是不同分支"],"score":17,"deepDiveCommand":"阅读 docs/knowledge-base/02-architecture.md 与对应章节"},{"id":"src:app","name":"应用上下文与样式","path":"src/app","layer":"源码","purpose":"组合单页工作区，提供 React Flow 上下文及全局 Tailwind/token。","files":4,"sourceFiles":4,"apiCount":0,"stateCount":0,"entryCount":0,"evidence":["src/app/App.tsx","src/app/providers/AppProviders.tsx","src/app/styles/base.css","src/app/styles/tailwind.css"],"keyFiles":["src/app/App.tsx","src/app/providers/AppProviders.tsx","src/app/styles/tailwind.css"],"upstream":["src:main.tsx"],"downstream":["pages:workspace"],"riskHints":["useReactFlow 必须在 Provider 内"],"score":5,"deepDiveCommand":"阅读 docs/knowledge-base/02-architecture.md 与对应章节"},{"id":"components:ui","name":"共享基础控件","path":"src/components/ui","layer":"组件","purpose":"Button 与 IconButton 的样式、图标和交互语义复用。","files":2,"sourceFiles":2,"apiCount":0,"stateCount":0,"entryCount":0,"evidence":["src/components/ui/Button.tsx","src/components/ui/IconButton.tsx"],"keyFiles":["src/components/ui/Button.tsx","src/components/ui/IconButton.tsx"],"upstream":["features:canvas","features:workspace"],"downstream":["lib:cn.ts"],"riskHints":["共享 UI 不直接读取业务 store"],"score":5,"deepDiveCommand":"阅读 docs/knowledge-base/02-architecture.md 与对应章节"},{"id":"pages:workspace","name":"工作区页面组合","path":"src/pages/workspace","layer":"页面","purpose":"组合页头、侧栏、画布与反馈，只在页面持有帮助开关。","files":1,"sourceFiles":1,"apiCount":0,"stateCount":0,"entryCount":0,"evidence":["src/pages/workspace/WorkspacePage.tsx"],"keyFiles":["src/pages/workspace/WorkspacePage.tsx"],"upstream":["src:app"],"downstream":["components:layout","features:canvas","features:workspace"],"riskHints":["页面不承接任务状态机"],"score":5,"deepDiveCommand":"阅读 docs/knowledge-base/02-architecture.md 与对应章节"},{"id":"components:layout","name":"页面布局","path":"src/components/layout","layer":"组件","purpose":"工作区网格与响应式容器。","files":1,"sourceFiles":1,"apiCount":0,"stateCount":0,"entryCount":0,"evidence":["src/components/layout/WorkspaceLayout.tsx"],"keyFiles":["src/components/layout/WorkspaceLayout.tsx"],"upstream":["pages:workspace"],"downstream":[],"riskHints":["修改布局需检查窄视口与画布容器坐标"],"score":2,"deepDiveCommand":"阅读 docs/knowledge-base/02-architecture.md 与对应章节"}],"source":{"entrypoints":{"app":["src/main.tsx","src/app/App.tsx"],"routes":[],"pages":["src/pages/workspace/WorkspacePage.tsx"],"state":["src/features/canvas/store/canvasStore.ts"],"api":[],"request":[],"config":["package.json","vite.config.ts","tsconfig.json","playwright.config.ts"],"federation":[]},"docs":{"readmes":["README.md","docs/knowledge-base/README.md"],"workspace":[],"envFiles":[],"ci":[],"codeowners":[],"configs":["package.json","tsconfig.json","vite.config.ts"]},"importantFiles":["docs/knowledge-base/01-overview.md","src/main.tsx","src/features/canvas/types.ts","src/features/canvas/utils/graph.ts","src/features/canvas/store/canvasStore.ts","src/features/canvas/services/documentPersistence.ts","openspec/changes/build-p0-canvas-demo/verification.md","src/features/canvas/hooks/useGeneratorNode.ts","src/features/canvas/hooks/useCanvasCreation.ts","src/features/canvas/components/CanvasSurface.tsx","src/features/canvas/store/canvasStore.test.ts","tests/spec-acceptance.spec.ts","docs/knowledge-base/README.md"],"readingPath":[{"title":"确认产品范围","path":"docs/knowledge-base/01-overview.md","note":"单项目、固定 mock、无后端；先分清已经实现与未来方案。","evidence":"docs/knowledge-base/01-overview.md"},{"title":"沿入口建立页面地图","path":"src/main.tsx","note":"App → AppProviders / ReactFlowProvider → WorkspacePage → CanvasSurface。","evidence":"src/main.tsx"},{"title":"理解领域实体","path":"src/features/canvas/types.ts","note":"分清节点、资产、任务、文档，以及当前输入和任务快照。","evidence":"src/features/canvas/types.ts"},{"title":"理解图规则","path":"src/features/canvas/utils/graph.ts","note":"getInputs 读取当前连接；isValidConnection 限制类型与每端口单连接。","evidence":"src/features/canvas/utils/graph.ts"},{"title":"追踪状态和任务","path":"src/features/canvas/store/canvasStore.ts","note":"submit 冻结快照，600 ms 排队 + 1600 ms 运行；finish 新建结果，retry 用原快照。","evidence":"src/features/canvas/store/canvasStore.ts"},{"title":"核对保存与恢复","path":"src/features/canvas/services/documentPersistence.ts","note":"普通编辑防抖 140 ms，任务状态立即保存；活动任务刷新中断，坏数据阻止覆盖。","evidence":"src/features/canvas/services/documentPersistence.ts"},{"title":"查验规范与测试","path":"openspec/changes/build-p0-canvas-demo/verification.md","note":"13 条需求和 15 个场景的验收索引；历史结果与本次检查分别记录。","evidence":"openspec/changes/build-p0-canvas-demo/verification.md"}]},"api":{"clusters":[],"endpoints":[],"methods":[],"urls":[]},"dependencies":{"internalEdges":112,"unresolvedEdges":0,"externalPackages":[{"name":"@xyflow/react","count":16},{"name":"lucide-react","count":16},{"name":"react","count":13},{"name":"zustand","count":4},{"name":"@playwright/test","count":4},{"name":"vitest","count":2},{"name":"react-dom","count":1}],"domainEdges":[{"from":{"id":"features:canvas","name":"canvas","path":"src/features/canvas","layer":"业务模块"},"to":{"id":"lib:cn.ts","name":"cn.ts","path":"src/lib/cn.ts","layer":"基础能力"},"count":6,"samples":["src/features/canvas/components/nodes/GenerationFeedback.tsx -\u003e src/lib/cn.ts","src/features/canvas/components/nodes/GeneratorInputs.tsx -\u003e src/lib/cn.ts","src/features/canvas/components/nodes/ImageNode.tsx -\u003e src/lib/cn.ts","src/features/canvas/components/nodes/NodeCard.tsx -\u003e src/lib/cn.ts","src/features/canvas/components/nodes/NodeFooter.tsx -\u003e src/lib/cn.ts"]},{"from":{"id":"features:workspace","name":"workspace","path":"src/features/workspace","layer":"业务模块"},"to":{"id":"features:canvas","name":"canvas","path":"src/features/canvas","layer":"业务模块"},"count":6,"samples":["src/features/workspace/components/CreationTools.tsx -\u003e src/features/canvas/hooks/useCanvasCreation.ts","src/features/workspace/components/NoticeToast.tsx -\u003e src/features/canvas/store/canvasStore.ts","src/features/workspace/components/SampleLibrary.tsx -\u003e src/features/canvas/constants.ts","src/features/workspace/components/StorageErrorBanner.tsx -\u003e src/features/canvas/store/canvasStore.ts","src/features/workspace/components/WorkspaceHeader.tsx -\u003e src/features/canvas/store/canvasStore.ts"]},{"from":{"id":"features:canvas","name":"canvas","path":"src/features/canvas","layer":"业务模块"},"to":{"id":"components:ui","name":"ui","path":"src/components/ui","layer":"组件"},"count":5,"samples":["src/features/canvas/components/CanvasControls.tsx -\u003e src/components/ui/IconButton.tsx","src/features/canvas/components/CanvasToolbar.tsx -\u003e src/components/ui/Button.tsx","src/features/canvas/components/EmptyCanvas.tsx -\u003e src/components/ui/Button.tsx","src/features/canvas/components/nodes/GeneratorNode.tsx -\u003e src/components/ui/Button.tsx","src/features/canvas/components/nodes/NodeHeading.tsx -\u003e src/components/ui/IconButton.tsx"]},{"from":{"id":"pages:workspace","name":"workspace","path":"src/pages/workspace","layer":"页面"},"to":{"id":"features:workspace","name":"workspace","path":"src/features/workspace","layer":"业务模块"},"count":5,"samples":["src/pages/workspace/WorkspacePage.tsx -\u003e src/features/workspace/components/HelpPanel.tsx","src/pages/workspace/WorkspacePage.tsx -\u003e src/features/workspace/components/NoticeToast.tsx","src/pages/workspace/WorkspacePage.tsx -\u003e src/features/workspace/components/StorageErrorBanner.tsx","src/pages/workspace/WorkspacePage.tsx -\u003e src/features/workspace/components/WorkspaceHeader.tsx","src/pages/workspace/WorkspacePage.tsx -\u003e src/features/workspace/components/WorkspaceSidebar.tsx"]},{"from":{"id":"features:workspace","name":"workspace","path":"src/features/workspace","layer":"业务模块"},"to":{"id":"components:ui","name":"ui","path":"src/components/ui","layer":"组件"},"count":3,"samples":["src/features/workspace/components/HelpPanel.tsx -\u003e src/components/ui/IconButton.tsx","src/features/workspace/components/NoticeToast.tsx -\u003e src/components/ui/IconButton.tsx","src/features/workspace/components/WorkspaceHeader.tsx -\u003e src/components/ui/Button.tsx"]},{"from":{"id":"src:main.tsx","name":"main.tsx","path":"src/main.tsx","layer":"源码"},"to":{"id":"src:app","name":"app","path":"src/app","layer":"源码"},"count":3,"samples":["src/main.tsx -\u003e src/app/App.tsx","src/main.tsx -\u003e src/app/styles/tailwind.css","src/main.tsx -\u003e src/app/styles/base.css"]},{"from":{"id":"pages:workspace","name":"workspace","path":"src/pages/workspace","layer":"页面"},"to":{"id":"features:canvas","name":"canvas","path":"src/features/canvas","layer":"业务模块"},"count":3,"samples":["src/pages/workspace/WorkspacePage.tsx -\u003e src/features/canvas/components/CanvasWorkspace.tsx","src/pages/workspace/WorkspacePage.tsx -\u003e src/features/canvas/components/EmptyCanvas.tsx","src/pages/workspace/WorkspacePage.tsx -\u003e src/features/canvas/hooks/useCanvasCreation.ts"]},{"from":{"id":"components:ui","name":"ui","path":"src/components/ui","layer":"组件"},"to":{"id":"lib:cn.ts","name":"cn.ts","path":"src/lib/cn.ts","layer":"基础能力"},"count":2,"samples":["src/components/ui/Button.tsx -\u003e src/lib/cn.ts","src/components/ui/IconButton.tsx -\u003e src/lib/cn.ts"]},{"from":{"id":"features:workspace","name":"workspace","path":"src/features/workspace","layer":"业务模块"},"to":{"id":"lib:cn.ts","name":"cn.ts","path":"src/lib/cn.ts","layer":"基础能力"},"count":2,"samples":["src/features/workspace/components/CreationTools.tsx -\u003e src/lib/cn.ts","src/features/workspace/components/WorkspaceHeader.tsx -\u003e src/lib/cn.ts"]},{"from":{"id":"src:app","name":"app","path":"src/app","layer":"源码"},"to":{"id":"pages:workspace","name":"workspace","path":"src/pages/workspace","layer":"页面"},"count":1,"samples":["src/app/App.tsx -\u003e src/pages/workspace/WorkspacePage.tsx"]},{"from":{"id":"src:main.tsx","name":"main.tsx","path":"src/main.tsx","layer":"源码"},"to":{"id":"features:canvas","name":"canvas","path":"src/features/canvas","layer":"业务模块"},"count":1,"samples":["src/main.tsx -\u003e src/features/canvas/styles/react-flow.css"]},{"from":{"id":"pages:workspace","name":"workspace","path":"src/pages/workspace","layer":"页面"},"to":{"id":"components:layout","name":"layout","path":"src/components/layout","layer":"组件"},"count":1,"samples":["src/pages/workspace/WorkspacePage.tsx -\u003e src/components/layout/WorkspaceLayout.tsx"]}],"density":0.56,"tools":[],"toolData":{"dependencyCruiser":null,"madge":null,"repomix":null}},"relations":[{"type":"repository","target":"https://github.com/j-tide/Infinite.git","evidence":"AGENTS.md","confidence":"high"},{"type":"storage","target":"localStorage: infinite-canvas:v1","evidence":"src/features/canvas/constants.ts","confidence":"high"},{"type":"static-assets","target":"public/samples/*.svg","evidence":"src/features/canvas/constants.ts","confidence":"high"}],"risks":[{"level":"high","category":"persistence","message":"损坏或未知版本文档会阻止覆盖；新建本地画布会清空当前文档，应先保留需抢救的原 JSON。","evidence":"src/features/canvas/services/documentPersistence.ts"},{"level":"medium","category":"concurrency","message":"多标签页没有冲突合并，可能相互覆盖同一来源的 localStorage。","evidence":"README.md"},{"level":"medium","category":"history","message":"资产和任务历史持续累积，尚无垃圾回收或配额管理。","evidence":"src/features/canvas/store/canvasStore.ts"},{"level":"medium","category":"semantics","message":"重试用原快照；当前输入重新生成才读取编辑后的提示词和比例。","evidence":"src/features/canvas/hooks/useGeneratorNode.ts"},{"level":"info","category":"mock","message":"输出固定 result.svg；比例只改变参数和尺寸元数据，真实模型与 HTTP 接口尚未实现。","evidence":"src/features/canvas/constants.ts"},{"level":"info","category":"spec","message":"OpenSpec 已实施，尚未同步主 specs 或归档；原始 design 的 CSS 描述早于 Tailwind 重构。","evidence":"openspec/changes/build-p0-canvas-demo/verification.md"}],"recommendations":{"readingPath":[{"title":"确认产品范围","path":"docs/knowledge-base/01-overview.md","note":"单项目、固定 mock、无后端；先分清已经实现与未来方案。","evidence":"docs/knowledge-base/01-overview.md"},{"title":"沿入口建立页面地图","path":"src/main.tsx","note":"App → AppProviders / ReactFlowProvider → WorkspacePage → CanvasSurface。","evidence":"src/main.tsx"},{"title":"理解领域实体","path":"src/features/canvas/types.ts","note":"分清节点、资产、任务、文档，以及当前输入和任务快照。","evidence":"src/features/canvas/types.ts"},{"title":"理解图规则","path":"src/features/canvas/utils/graph.ts","note":"getInputs 读取当前连接；isValidConnection 限制类型与每端口单连接。","evidence":"src/features/canvas/utils/graph.ts"},{"title":"追踪状态和任务","path":"src/features/canvas/store/canvasStore.ts","note":"submit 冻结快照，600 ms 排队 + 1600 ms 运行；finish 新建结果，retry 用原快照。","evidence":"src/features/canvas/store/canvasStore.ts"},{"title":"核对保存与恢复","path":"src/features/canvas/services/documentPersistence.ts","note":"普通编辑防抖 140 ms，任务状态立即保存；活动任务刷新中断，坏数据阻止覆盖。","evidence":"src/features/canvas/services/documentPersistence.ts"},{"title":"查验规范与测试","path":"openspec/changes/build-p0-canvas-demo/verification.md","note":"13 条需求和 15 个场景的验收索引；历史结果与本次检查分别记录。","evidence":"openspec/changes/build-p0-canvas-demo/verification.md"}],"deepDives":[{"label":"任务生命周期","path":"src/features/canvas/store/canvasStore.ts","reason":"输入快照、失败重试、删除竞争和独立结果。","command":"阅读 docs/knowledge-base/04-flows.md"},{"label":"保存恢复协议","path":"src/features/canvas/services/documentPersistence.ts","reason":"版本校验、引用完整性、刷新中断和原始数据保护。","command":"阅读 docs/knowledge-base/05-persistence.md"}],"nextActions":["按知识库章节阅读并沿源码验证。","新增行为时联动领域、恢复校验、行为规范和测试。"]},"aiPack":{"summary":"Infinite 是单项目纯前端智能画布 P0 Demo。图片与提示词连接到生成节点，提交时冻结输入和比例；浏览器定时器模拟任务并新增独立结果。状态由 Zustand 管理，localStorage v1 保存与恢复。无真实模型 API、账号或上传。","importantFiles":["docs/knowledge-base/01-overview.md","src/main.tsx","src/features/canvas/types.ts","src/features/canvas/utils/graph.ts","src/features/canvas/store/canvasStore.ts","src/features/canvas/services/documentPersistence.ts","openspec/changes/build-p0-canvas-demo/verification.md","src/features/canvas/hooks/useGeneratorNode.ts","src/features/canvas/hooks/useCanvasCreation.ts","src/features/canvas/components/CanvasSurface.tsx","src/features/canvas/store/canvasStore.test.ts","tests/spec-acceptance.spec.ts","docs/knowledge-base/README.md"],"commands":["npm ci","npm run dev","npm test","npm run build","npm run test:e2e"],"copyText":"项目：Infinite，单项目纯前端智能画布 P0 Demo。\n技术：React 19、TypeScript、React Flow 12.12、Zustand 5、Tailwind CSS 4、Vite 6。\n入口：src/main.tsx → src/app/App.tsx → AppProviders → WorkspacePage。\n领域：src/features/canvas/types.ts 与 utils/graph.ts。\n状态/模拟任务：src/features/canvas/store/canvasStore.ts。\n保存/恢复：src/features/canvas/services/documentPersistence.ts。\n关键约束：输入类型与每端口单连接；提交冻结输入；重试用原快照；每次成功新建资产和图片节点；删除节点保留历史；坏数据不自动覆盖。\n运行：npm ci、npm run dev；验证：npm test、npm run build、npm run test:e2e。\n边界：固定本地 SVG mock；localStorage v1；无后端/上传/账号/跨设备同步/多标签并发合并。\n先阅读 docs/knowledge-base/README.md 和 AGENTS.md；不要把 README 的未来 HTTP 方案当成现有实现。\n"}}</script>
+<script>
+
+const data = JSON.parse(document.getElementById("project-data").textContent);
+const $ = (selector, root = document) => root.querySelector(selector);
+const app = $("#app");
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+}
+function code(value) { return value ? "<code>" + esc(value) + "</code>" : "<span class='muted'>-</span>"; }
+function pill(value, extra = "") { return value ? "<span class='pill " + extra + "'>" + esc(value) + "</span>" : ""; }
+function list(items, renderer = (item) => esc(item)) {
+  return items && items.length ? "<ul class='list'>" + items.map((item) => "<li>" + renderer(item) + "</li>").join("") + "</ul>" : "<div class='empty'>暂无识别结果</div>";
+}
+function rows(items, cells) {
+  return items && items.length ? items.map((item) => "<tr>" + cells(item).map((cell) => "<td>" + cell + "</td>").join("") + "</tr>").join("") : "<tr><td colspan='8' class='muted'>暂无识别结果</td></tr>";
+}
+function statusPill(status) {
+  const map = { "unit-build-verified": ["单元测试与构建通过", "green"], "not-run": ["未验证", "amber"], "verified-safe": ["安全验证已跑", "green"], "verification-failed": ["验证失败", "red"] };
+  const item = map[status] || [status || "-", ""];
+  return pill(item[0], item[1]);
+}
+function riskClass(level) { return level === "high" ? "risk-high" : level === "medium" ? "risk-medium" : "risk-low"; }
+function zhLevel(level) { return ({ high: "高", medium: "中", low: "低", info: "提示" }[level] || level || "-"); }
+function commandGroups(commands) {
+  return Object.entries(commands || {}).flatMap(([group, items]) => (items || []).map((item) => ({ group, ...item })));
+}
+function groupLabel(group) {
+  return ({ dev: "本地启动", build: "构建", test: "测试", lint: "代码检查", typecheck: "类型检查", format: "格式化", other: "其他" }[group] || group);
+}
+function maxValue(items, key) {
+  return Math.max(1, ...(items || []).map((item) => Number(item[key] || 0)));
+}
+
+function render() {
+  app.innerHTML = [
+    renderSidebar(),
+    "<main class='main'>" + renderHero() + "<section class=\"section\" id=\"knowledge\"><h2>知识库章节</h2><p class=\"muted\">代码基线 917b3f1 · 整理日期 2026-10-08 · 本次 26 项单元测试与构建通过；E2E 为历史验收记录。</p><table><thead><tr><th>章节</th><th>内容</th></tr></thead><tbody><tr><td><a href=\"01-overview.md\">项目概览</a></td><td>三类节点与结果复用；固定 mock、单项目、单标签页范围。</td></tr><tr><td><a href=\"02-architecture.md\">架构与源码地图</a></td><td>main → App → Provider → WorkspacePage；组件、hooks、store 与持久化分层。</td></tr><tr><td><a href=\"03-domain-model.md\">领域模型</a></td><td>CanvasDocument、Node、Edge、Asset、Task 与各自 ID；快照与引用约束。</td></tr><tr><td><a href=\"04-flows.md\">核心执行流程</a></td><td>600 ms 排队与 1600 ms 生成、原快照重试、独立结果、删除竞争和世界坐标。</td></tr><tr><td><a href=\"05-persistence.md\">保存与恢复</a></td><td>localStorage v1、140 ms 防抖、刷新中断、坏数据保护和失败重试。</td></tr><tr><td><a href=\"06-development.md\">开发与验证</a></td><td>启动、构建、26 项单元测试、17 项浏览器用例和 OpenSpec 验收索引。</td></tr><tr><td><a href=\"07-maintenance.md\">维护与扩展</a></td><td>问题定位、功能修改联动范围、领域约束与未来真实服务方案。</td></tr></tbody></table><h3>核心业务关系</h3><p>图片节点与提示词节点 → 对应生成输入端口 → 提交任务快照 → 排队 → 运行 → 成功或失败。成功新建结果资产与图片节点，结果可再次连线。删除节点保留资产与历史；删除生成节点或刷新会中断活动任务。重试创建新任务并沿用原输入与比例。</p></section>" + renderSearch() + renderOverview() + renderReadPath() + renderArchitecture() + renderDomains() + renderApiAndDeps() + renderRunbook() + renderRisks() + renderAiPack() + "</main>",
+    "<aside class='inspector' id='inspector'>" + renderInspectorEmpty() + "</aside>",
+  ].join("");
+  bindInteractions();
+}
+
+function renderSidebar() {
+  return "<aside class='sidebar'><div class='brand'>" + esc(data.metadata.name) + "</div><div class='brand-sub'>项目知识库</div><nav class='nav'>" +
+    [["#overview","总览"],["#knowledge","知识章节"],["#read","10 分钟接手"],["#architecture","架构"],["#domains","模块"],["#api","API"],["#deps","依赖"],["#runbook","运行"],["#risks","风险"],["#ai","AI 接手包"]]
+      .map(([href,label]) => "<a href='" + href + "'>" + label + "</a>").join("") +
+    "</nav><div class='tool-status'>" +
+    "<a class='pill' href='project-data.json'>project-data.json</a><a class='pill green' href='README.md'>知识库目录</a><a class='pill amber' href='02-architecture.md'>架构说明</a>" +
+    "</div></aside>";
+}
+
+function renderHero() {
+  const m = data.metadata;
+  return "<section class='hero' id='overview'><div class='eyebrow'>" + esc(data.catalog.type) + "</div><h1>" + esc(m.name) + "</h1><p class='summary'>" + esc(m.summary) + "</p><div class='meta'>" +
+    pill("技术栈：" + (m.stack || []).join(", ")) + pill("包管理器：" + (m.packageManager || "-")) + pill("分支：" + (m.git?.branch || "-")) + statusPill(data.runbook.status) + pill("文件：" + m.fileCount) +
+    "</div></section>";
+}
+
+function renderSearch() {
+  return "<section class='section'><div class='section-head'><div><h2>快速搜索</h2><p class='muted'>搜模块、API、脚本、入口文件。点结果后右侧会显示证据和上下游。</p></div></div><div class='toolbar'><input id='search' class='search' placeholder='例如：画布、任务、快照、保存、store、build'></div><div id='search-results' class='search-results'></div></section>";
+}
+
+function renderOverview() {
+  const stats = [
+    ["本地启动", data.runbook.devCommand || "未识别"],
+    ["构建命令", data.runbook.buildCommand || "未识别"],
+    ["模块数", data.domains.length],
+    ["API 域", data.api.clusters.length],
+    ["关键文件", data.source.importantFiles.length],
+    ["风险提示", data.risks.length],
+  ];
+  return "<section class='section'><h2>先看结论</h2><div class='stat-grid'>" + stats.map(([label, value]) =>
+    "<div class='stat'><div class='label'>" + esc(label) + "</div><div class='value'>" + esc(value) + "</div></div>"
+  ).join("") + "</div><h3>软件目录信息</h3><div class='meta'>" +
+    pill("类型：" + data.catalog.type) + pill("生命周期：" + data.catalog.lifecycle) + pill("Owner：" + data.catalog.owner) + (data.catalog.tags || []).map((tag) => pill(tag, "green")).join("") +
+    "</div></section>";
+}
+
+function renderReadPath() {
+  return "<section class='section' id='read'><h2>10 分钟接手路径</h2><p class='muted'>按顺序看，不需要一上来读完整仓库。</p><div class='timeline'>" +
+    data.recommendations.readingPath.map((step, index) => "<div class='step' data-kind='read' data-index='" + index + "'><div class='step-index'>" + (index + 1) + "</div><div><div class='step-title'>" + esc(step.title) + " " + code(step.path) + "</div><div class='step-note'>" + esc(step.note) + "</div></div></div>").join("") +
+    "</div></section>";
+}
+
+function renderArchitecture() {
+  return "<section class='section' id='architecture'><div class='section-head'><div><h2>架构地图</h2><p class='muted'>沿启动、受控图、任务与保存链路定位代码。</p></div></div><div class='arch-grid'>" +
+    data.architecture.lanes.map((lane) => "<div class='lane'><h3>" + esc(lane.label) + "</h3>" + list(lane.items, code) + "</div>").join("") +
+    "</div><h3>核心链路</h3><div class='flow'>" + data.architecture.nodes.slice(0, 16).map((node, index) =>
+      "<div class='flow-node' data-kind='arch' data-index='" + index + "'><strong>" + esc(node.label) + "</strong><span>" + esc(node.type) + "</span><span>" + esc(node.detail || node.layer || "") + "</span></div>"
+    ).join("") + "</div></section>";
+}
+
+function renderDomains() {
+  return "<section class='section' id='domains'><div class='section-head'><div><h2>模块地图</h2><p class='muted'>按接手权重排序。点模块看证据、上下游、风险和深挖命令。</p></div></div><div class='domain-list'>" +
+    data.domains.map((domain, index) => "<div class='domain-row' data-kind='domain' data-index='" + index + "'><div><div class='domain-name'>" + esc(domain.layer + " / " + domain.name) + "</div><div class='domain-path'>" + esc(domain.path) + "</div></div><div>" + esc(domain.purpose) + "</div><div>" + domain.files + " 文件</div><div>" + domain.apiCount + " API</div><div>" + domain.downstream.length + " 下游</div></div>").join("") +
+    "</div></section>";
+}
+
+function renderApiAndDeps() {
+  const maxApi = maxValue(data.api.clusters, "count");
+  const maxPkg = maxValue(data.dependencies.externalPackages, "count");
+  return "<div class='two-col'><section class='section' id='api'><h2>API/后端域</h2><p class='muted'>README 的未来 HTTP 方案尚未实现；documentPersistence 是本地文档服务。</p><div class='bar-list'>" +
+    (data.api.clusters.length ? data.api.clusters.map((item, index) => "<div class='bar-row' data-kind='api' data-index='" + index + "'><div>" + code(item.name) + "</div><div class='bar-track'><div class='bar-value' style='width:" + Math.max(8, Math.round(item.count / maxApi * 100)) + "%'></div></div><strong>" + item.count + "</strong></div>").join("") : "<div class='empty'>当前无 HTTP API。任务由浏览器定时器模拟，所有结果引用本地 SVG。</div>") +
+    "</div></section><section class='section' id='deps'><h2>依赖和工具增强</h2><p class='muted'>优先展示解释项目能力边界的包，以及成熟工具是否参与增强。</p><div class='bar-list'>" +
+    (data.dependencies.externalPackages || []).slice(0, 12).map((item) => "<div class='bar-row'><div>" + code(item.name) + "</div><div class='bar-track'><div class='bar-value' style='width:" + Math.max(8, Math.round(item.count / maxPkg * 100)) + "%'></div></div><strong>" + item.count + "</strong></div>").join("") +
+    "</div><div class='tool-status'>" + (data.dependencies.tools || []).map((tool) => "<div class='tool'><strong>" + esc(tool.name) + "</strong><div>" + pill(tool.status, tool.status === "ok" || tool.status === "available" ? "green" : tool.status === "missing" || tool.status === "skipped" ? "amber" : "red") + "</div><p class='muted'>" + esc(tool.summary || tool.reason || "") + "</p></div>").join("") + "</div></section></div>";
+}
+
+function renderRunbook() {
+  const commands = commandGroups(data.runbook.commands);
+  return "<section class='section' id='runbook'><h2>怎么跑起来</h2><p class='muted'>Node.js ≥20 与 npm；npm ci 后运行 npm run dev。无需账号、API Key、环境文件或后端。build 包含 src 的类型检查。</p><table><thead><tr><th>类别</th><th>脚本</th><th>命令</th></tr></thead><tbody>" +
+    rows(commands, (item) => [esc(groupLabel(item.group)), code(item.name), code(item.command)]) +
+    "</tbody></table><h3>运行输入</h3><div class='meta'>" + (data.runbook.envFiles || []).map((item) => pill(item, "amber")).join("") + (data.runbook.ci || []).map((item) => pill(item, "green")).join("") + "</div></section>";
+}
+
+function renderRisks() {
+  return "<section class='section' id='risks'><h2>风险和下一步</h2><table><thead><tr><th>级别</th><th>说明</th><th>证据</th></tr></thead><tbody>" +
+    rows(data.risks, (risk) => ["<span class='" + riskClass(risk.level) + "'>" + esc(zhLevel(risk.level)) + "</span>", esc(risk.message), code(risk.evidence)]) +
+    "</tbody></table><h3>建议继续深挖</h3><table><thead><tr><th>模块</th><th>原因</th><th>命令</th></tr></thead><tbody>" +
+    rows(data.recommendations.deepDives, (item) => [code(item.path), esc(item.reason), code(item.command)]) +
+    "</tbody></table></section>";
+}
+
+function renderAiPack() {
+  return "<section class='section' id='ai'><div class='section-head'><div><h2>AI 接手包</h2><p class='muted'>需要继续问 AI 某个模块时，复制这段比复制全仓库更有效。</p></div><button id='copy-ai'>复制</button></div><textarea class='textarea' id='ai-text' readonly>" + esc(data.aiPack.copyText) + "</textarea></section>";
+}
+
+function buildSearchIndex() {
+  const items = [];
+  data.domains.forEach((domain, index) => items.push({ kind: "模块", title: domain.layer + " / " + domain.name, detail: domain.path + " " + domain.purpose, inspect: ["domain", index] }));
+  data.api.clusters.forEach((api, index) => items.push({ kind: "API", title: api.name, detail: api.count + " references " + api.evidence, inspect: ["api", index] }));
+  commandGroups(data.runbook.commands).forEach((cmd) => items.push({ kind: "命令", title: cmd.name, detail: cmd.command + " " + groupLabel(cmd.group), inspect: null }));
+  data.source.importantFiles.forEach((file) => items.push({ kind: "文件", title: file, detail: "关键阅读文件", inspect: null }));
+  data.source.entrypoints.federation.forEach((item) => items.push({ kind: "MF", title: item.name, detail: item.target + " " + item.evidence, inspect: null }));
+  return items;
+}
+
+function bindInteractions() {
+  const inspector = $("#inspector");
+  document.querySelectorAll("[data-kind]").forEach((node) => {
+    node.addEventListener("click", () => inspect(node.dataset.kind, Number(node.dataset.index)));
+  });
+  $("#copy-ai")?.addEventListener("click", async () => {
+    const text = $("#ai-text").value;
+    try { await navigator.clipboard.writeText(text); $("#copy-ai").textContent = "已复制"; }
+    catch { $("#copy-ai").textContent = "复制失败"; }
+  });
+  const search = $("#search");
+  const results = $("#search-results");
+  const index = buildSearchIndex();
+  search?.addEventListener("input", () => {
+    const q = search.value.trim().toLowerCase();
+    if (!q) { results.classList.remove("active"); results.innerHTML = ""; return; }
+    const hits = index.filter((item) => (item.title + " " + item.detail + " " + item.kind).toLowerCase().includes(q)).slice(0, 20);
+    results.innerHTML = hits.length ? hits.map((item, i) => "<div class='result-row' data-hit='" + i + "'><div class='result-kind'>" + esc(item.kind) + "</div><div><strong>" + esc(item.title) + "</strong><div class='muted'>" + esc(item.detail) + "</div></div></div>").join("") : "<div class='empty'>没有搜到</div>";
+    results.classList.add("active");
+    results.querySelectorAll("[data-hit]").forEach((row) => {
+      row.addEventListener("click", () => {
+        const hit = hits[Number(row.dataset.hit)];
+        if (hit.inspect) inspect(hit.inspect[0], hit.inspect[1]);
+      });
+    });
+  });
+
+  function inspect(kind, index) {
+    let html = renderInspectorEmpty();
+    if (kind === "domain") html = inspectDomain(data.domains[index]);
+    if (kind === "api") html = inspectApi(data.api.clusters[index]);
+    if (kind === "arch") html = inspectArch(data.architecture.nodes[index]);
+    if (kind === "read") html = inspectRead(data.recommendations.readingPath[index]);
+    inspector.innerHTML = html;
+  }
+}
+
+function renderInspectorEmpty() {
+  return "<h2>证据面板</h2><div class='inspect-empty'>点击模块、API、架构节点或阅读步骤，这里会显示证据路径、上下游和下一步动作。</div>";
+}
+function inspectDomain(domain) {
+  return "<h2>" + esc(domain.layer + " / " + domain.name) + "</h2><p>" + esc(domain.purpose) + "</p><div class='kv'><div class='k'>路径</div><div>" + code(domain.path) + "</div><div class='k'>文件</div><div>" + domain.files + "</div><div class='k'>API</div><div>" + domain.apiCount + "</div><div class='k'>状态</div><div>" + domain.stateCount + "</div></div><h3>关键文件</h3>" + list(domain.keyFiles, code) + "<h3>上游</h3>" + list(domain.upstream, esc) + "<h3>下游</h3>" + list(domain.downstream, esc) + "<h3>风险</h3>" + list(domain.riskHints, esc) + "<h3>深入阅读</h3>" + code(domain.deepDiveCommand);
+}
+function inspectApi(api) {
+  const endpoints = data.api.endpoints.filter((item) => item.path.startsWith(api.name)).slice(0, 20);
+  return "<h2>API 域 " + esc(api.name) + "</h2><p class='muted'>出现 " + api.count + " 次，首个证据：" + code(api.evidence) + "</p><h3>接口样例</h3>" + list(endpoints, (item) => code(item.path) + " <span class='muted'>" + esc(item.evidence) + "</span>");
+}
+function inspectArch(node) {
+  const edges = data.architecture.edges.filter((edge) => edge.from === node.id || edge.to === node.id);
+  return "<h2>" + esc(node.label) + "</h2><div class='kv'><div class='k'>类型</div><div>" + esc(node.type) + "</div><div class='k'>层级</div><div>" + esc(node.layer) + "</div><div class='k'>证据</div><div>" + code(node.detail) + "</div></div><h3>关系</h3>" + list(edges, (edge) => esc(edge.from + " --" + edge.label + "--> " + edge.to));
+}
+function inspectRead(step) {
+  return "<h2>" + esc(step.title) + "</h2><p>" + esc(step.note) + "</p><div class='kv'><div class='k'>路径</div><div>" + code(step.path) + "</div><div class='k'>证据</div><div>" + code(step.evidence) + "</div></div>";
+}
+
+render();
+
+</script>
+</body>
+</html>
